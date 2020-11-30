@@ -16,12 +16,16 @@ public class GameManager : MonoBehaviour
 	public GameObject[] bricks;
 
 	public static bool stopGame;
+	private bool endHandled;
+	private bool won;
 
     // Start is called before the first frame update
     void Start()
     {
+    	won = false;
     	stopGame = false;
     	fired = false;
+    	endHandled = false;
     	scoreNum = 0;
         StartBall();
     }
@@ -42,7 +46,24 @@ public class GameManager : MonoBehaviour
     }
 
     void HandleEnd(){
-    	
+    	if(!endHandled){
+	    	GameObject.Destroy(initialBall.gameObject);
+	    	GameObject.Destroy(paddle.gameObject);
+	    	for(int i = 0; i < bricks.Length; i++){
+	    		GameObject.Destroy(bricks[i].gameObject);
+	    	}
+	    	endHandled = true;
+	    }
+	    score.fontSize = 90;
+	    if(won)
+	    {
+	    	score.text = "You Won! Final Score: " + scoreNum;
+	    }
+	    else
+	    {
+	    	score.text = "You Lost! Final Score: " + scoreNum;
+	    }
+
     }
 
     //checks if any bricks remain
@@ -50,6 +71,7 @@ public class GameManager : MonoBehaviour
     	bricks = GameObject.FindGameObjectsWithTag("Brick");
     	if(bricks.Length == 0){
     		stopGame = true;
+    		won = true;
     	}
 
     }

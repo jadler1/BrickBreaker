@@ -47,7 +47,7 @@ public class Brick : MonoBehaviour
     }
 
     void ProcessHit(){
-    	//Right now this just lowers the hp, it could be modified to allow powerups to work
+    	//Right now this just lowers the hp, it could be modified to allow powerups to drop
     	hp--;
     	GameManager.AddScore(1);
     }
