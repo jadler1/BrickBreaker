@@ -29,13 +29,19 @@ public class Ball : MonoBehaviour
     	if(collision.gameObject.tag == "Player"){
     		source.clip = paddleHit;
     		source.Play();
-    	}
+    	}//TODO actually add clips for the following 2 sounds
     	else if (collision.gameObject.tag == "Brick"){
     		source.clip = brickHit;
     		source.Play();
     	}
+    	else if (collision.gameObject.tag == "Wall"){
+    		source.clip = wallHit;
+    		source.Play();
+    	}
     }
 
+
+    //when the ball is initially shot off the paddle, 
     public void Fire(){
     	rb.AddForce(transform.up*200);
     	rb.AddForce(transform.right*2);

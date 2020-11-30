@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Brick : MonoBehaviour
 {
+	//different displays for different hp amounts
 	public Sprite blue;
 	public Sprite red;
 	public Sprite green;
@@ -22,18 +23,19 @@ public class Brick : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+    	//we dont have bricks over 3 hp
         if(hp > 3){
         	hp = 3;
-        }
+        }//red brick, 3hp
         if(hp == 3){
         	sr.sprite = red;
-        }
+        }//green brick, 2hp
         else if (hp ==2){
         	sr.sprite = green;
-        }
+        }//blue brick, 1hp
         else if (hp == 1){
         	sr.sprite = blue;
-        }
+        }//no more hp, destroy
         else{
         	Destroy(gameObject);
         }

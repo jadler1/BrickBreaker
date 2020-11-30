@@ -5,18 +5,35 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+	//the actual ball in play
 	public Ball initialBall;
+	//a prefab, assigned in the unity editor
 	public Ball _b;
 
+
+	//the paddle, assigned value in the unity editor
 	public Paddle paddle;
 
+	//has the ball left the paddle yet?
 	public static bool fired;
+
+	//the text display for the score, doubles as "you won/lost" text
 	public Text score;
+	//the value of the score
 	public static int scoreNum;
+	//a list of all bricks on the screen
 	public GameObject[] bricks;
 
+
+	//has the game stopped for some reason?
+	//right now this is just for endgame, but could be modified for pause too
+	//its static, so it should be accessible from the other scripts (stop paddle from moving)
 	public static bool stopGame;
+
+	//have all the objects been destroyed?
 	private bool endHandled;
+
+	//did you win or lose?
 	private bool won;
 
     // Start is called before the first frame update
@@ -45,7 +62,11 @@ public class GameManager : MonoBehaviour
 		}
     }
 
+
+    //cleans up at the end of the game, displays final score
     void HandleEnd(){
+
+    	//we only wanna destroy objects once
     	if(!endHandled){
 	    	GameObject.Destroy(initialBall.gameObject);
 	    	GameObject.Destroy(paddle.gameObject);
@@ -54,6 +75,8 @@ public class GameManager : MonoBehaviour
 	    	}
 	    	endHandled = true;
 	    }
+
+	    //when the objects have been destroyed, update the score text to be endgame text
 	    score.fontSize = 90;
 	    if(won)
 	    {
@@ -88,7 +111,7 @@ public class GameManager : MonoBehaviour
     	score.text = scoreNum + "";
     }
 
-    //keeps the ball following the paddle
+    //keeps the ball following the paddle, slightly above the paddle
     void BallFollow(){
     	if(!fired){
     		Vector3 paddlePos = paddle.gameObject.transform.position;
@@ -102,6 +125,8 @@ public class GameManager : MonoBehaviour
     	if(Input.GetKey(KeyCode.Space)){
         	FireBall();
         }
+
+        //TODO handle pause
     }
 
     //instatiates the ball just above the center of the paddle
@@ -111,6 +136,7 @@ public class GameManager : MonoBehaviour
     	initialBall = Instantiate(_b, ballPos, Quaternion.identity);
     }
 
+    //shoot the paddle off the ball
     void FireBall(){
     	if(!fired){
     		fired = true;
@@ -119,6 +145,10 @@ public class GameManager : MonoBehaviour
 
     }
 
+
+    //add to the score, variable amount for powerups
+    //this is static, so you can call if from other scripts 
+    //probably call from the OnCollisionEnter2D for the paddle/powerup script
     public static void AddScore(int amt){
     	scoreNum += amt;
     }
