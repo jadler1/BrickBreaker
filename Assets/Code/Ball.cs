@@ -6,11 +6,16 @@ public class Ball : MonoBehaviour
 {
 	public GameObject ball;
 	private Rigidbody2D rb;
+	private AudioSource source;
+	public AudioClip paddleHit; 
+	public AudioClip brickHit;
+	public AudioClip wallHit;
     // Start is called before the first frame update
     void Start()
     {
         rb = ball.GetComponent<Rigidbody2D>();
-        rb.velocity = new Vector2(0f,-1f);
+        source = ball.GetComponent<AudioSource>();
+
     }
 
     // Update is called once per frame
@@ -19,11 +24,20 @@ public class Ball : MonoBehaviour
         
     }
 
-    // void OnCollisionEnter2D(Collision2D collision){
-    // 	//rb.velocity = -1*rb.velocity;
-    // }
+
+    void OnCollisionEnter2D(Collision2D collision){
+    	if(collision.gameObject.tag == "Player"){
+    		source.clip = paddleHit;
+    		source.Play();
+    	}
+    	else if (collision.gameObject.tag == "Brick"){
+    		source.clip = brickHit;
+    		source.Play();
+    	}
+    }
 
     public void Fire(){
     	rb.AddForce(transform.up*200);
+    	rb.AddForce(transform.right*2);
     }
 }
